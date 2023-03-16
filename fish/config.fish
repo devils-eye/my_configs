@@ -205,6 +205,7 @@ alias bored='devour dolphin /mnt/sda3/Personal_Development/'
 # Programming aliases:
 alias py='python3'
 alias nv='nvim'
+alias ascii='ascii-image-converter'
 #===========================================================
 # Button Speed:
 alias speed='xset r rate 300 100'

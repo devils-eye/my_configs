@@ -13,11 +13,13 @@ from typing import List  # noqa: F401
 
 from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration
+from libqtile.dgroups import simple_key_binder
 
 mod = "mod4"              # Sets mod key to SUPER/WINDOWS
 mod1 = "alt"
 mod2 = "control"
 myTerm = "kitty"      # My terminal of choice
+myTerm2 = "alacritty"
 myBrowser = "brave"# My browser of choice
 incognito = "brave --incognito" # Chrome incognito
 second_browser = "firefox"
@@ -287,19 +289,21 @@ groups = [Group("DEV", layout='monadtall'),
 # Allow MODKEY+[0 through 9] to bind to groups, see https://docs.qtile.org/en/stable/manual/config/groups.html
 # MOD4 + index Number : Switch to Group[index]
 # MOD4 + shift + index Number : Send active window to another Group
-from libqtile.dgroups import simple_key_binder
 dgroups_key_binder = simple_key_binder("mod4")
-
 # Append scratchpad:
 groups.append(ScratchPad('scratchpad',[
     DropDown('kitty', myTerm, width=0.4, height=0.5, x=0.3, y=0.2, opacity=0.8),
     DropDown('gnome-calculator', calculator, width=0.4, height=0.5, x=0.3, y=0.2, opacity=0.8),
+    DropDown("cointop", "alacritty -e 'cointop'", width=0.6, height=0.8, x=0.2, y=0.1, opacity=1),
+    DropDown("bpytop", "alacritty -e 'bpytop'", width=0.6, height=0.8, x=0.2, y=0.1, opacity=1),
 ]))
 
 # extend keys list with keybinding for scratchpad
 keys.extend([
     Key([mod], "z", lazy.group['scratchpad'].dropdown_toggle('kitty')),
     Key([mod], "F11", lazy.group['scratchpad'].dropdown_toggle('gnome-calculator')),
+    Key([mod, "shift"], "F1", lazy.group['scratchpad'].dropdown_toggle("cointop")),
+    Key([mod, "shift"], "F2", lazy.group['scratchpad'].dropdown_toggle("bpytop")),
 ])
 
 layout_theme = {"border_width": 2,
