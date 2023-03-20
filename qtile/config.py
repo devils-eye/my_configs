@@ -41,7 +41,11 @@ keys = [
              lazy.spawn("rofi -show drun"),
              desc='Run Launcher'
              ),
-         Key([mod], "b",
+        Key([mod], "m",
+             lazy.spawn("obsidian"),
+             desc='obsidian'
+             ),
+        Key([mod], "b",
              lazy.spawn(myBrowser),
              desc='chrome'
              ),

@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("start.org"
+(("Learning Notes"
+ (filename . "/mnt/programming/LearningNotes/")
+ (front-context-string . "ejptlearning.org")
+ (rear-context-string . "60 Mar 17 05:54 ")
+ (position . 128))
+("all_programming_files"
+ (filename . "/mnt/programming/all_programming_files/")
+ (front-context-string . "Python\n  drwxrwx")
+ (rear-context-string . " 0 Feb  8 14:04 ")
+ (position . 136))
+("start.org"
  (filename . "~/.config/doom/start.org")
  (front-context-string . "recent file     ")
  (rear-context-string . "]]     | Find a ")
