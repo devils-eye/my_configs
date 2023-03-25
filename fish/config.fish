@@ -9,7 +9,7 @@ set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 # your path gets massive and fish becomes very slow.
 set -e fish_user_paths
 set -U fish_user_paths $HOME/.bin $HOME/.local/bin $HOME/.emacs.d/bin $HOME/Applications /var/lib/flatpak/exports/bin/ $fish_user_paths
-
+set -U fish_user_paths $HOME/.cargo/bin/
 ### EXPORT ###
 set fish_greeting # Supresses fish's intro message
 set TERM xterm-256color # Sets the terminal type
