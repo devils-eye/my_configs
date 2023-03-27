@@ -213,6 +213,8 @@ alias speed='xset r rate 300 100'
 # Caps Swap Escape:
 alias swap='setxkbmap -option caps:swapescape'
 #============================================================
+# Shortcuts:
+alias jp='cd /mnt/programming/all_programming_files/'
 
 
 
