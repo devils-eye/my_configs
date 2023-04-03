@@ -158,7 +158,7 @@
 (setq delete-by-moving-to-trash t
       trash-directory "~/.local/share/Trash/files/")
 
-(setq doom-theme 'doom-one)
+(setq doom-theme 'catppuccin)
 (map! :leader
       :desc "Load new theme" "h t" #'counsel-load-theme)
 

@@ -82,3 +82,4 @@
 (package! clippy)
 (package! minimap)
 (package! olivetti)
+(package! catppuccin-theme)

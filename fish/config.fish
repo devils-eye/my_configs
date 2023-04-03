@@ -10,6 +10,9 @@ set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 set -e fish_user_paths
 set -U fish_user_paths $HOME/.bin $HOME/.local/bin $HOME/.emacs.d/bin $HOME/Applications /var/lib/flatpak/exports/bin/ $fish_user_paths
 set -U fish_user_paths $HOME/.cargo/bin/
+set -U fish_user_paths $HOME/flutter/bin/
+set -U fish_user_paths $HOME/Android/Sdk/emulator/
+
 ### EXPORT ###
 set fish_greeting # Supresses fish's intro message
 set TERM xterm-256color # Sets the terminal type
@@ -204,7 +207,7 @@ alias bored='devour dolphin /mnt/sda3/Personal_Development/'
 #===========================================================
 # Programming aliases:
 alias py='python3'
-alias nv='nvim'
+alias nv='lvim'
 alias ascii='ascii-image-converter'
 #===========================================================
 # Button Speed:

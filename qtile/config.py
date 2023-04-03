@@ -24,7 +24,7 @@ myBrowser = "brave"# My browser of choice
 incognito = "brave --incognito" # Chrome incognito
 second_browser = "firefox"
 calculator = "gnome-calculator"
-
+chatGPT = "qutebrowser" 
 
 keys = [
          ### The essentials
@@ -32,10 +32,10 @@ keys = [
              lazy.spawn(myTerm+" -e fish"),
              desc='Launches My Terminal'
              ),
-         # Key(["control"], "Return",
-         #     lazy.spawn(myTerm+" -e fish"),
-         #     desc='Launches My Terminal'
-         #     ),
+         Key([mod], "F12",
+             lazy.spawn(chatGPT),
+             desc='Launches chatgpt '
+             ),
 
          Key([mod, "shift"], "Return",
              lazy.spawn("rofi -show drun"),

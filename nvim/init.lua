@@ -5,6 +5,7 @@ require("plugins.core")
 require("plugins.color-foxnight")
 require("plugins.color-tokyonight")
 require("plugins.color-kanagawa")
+require("plugins.firenvim-browser")
 
 require("tabnine").setup({
   disable_auto_comment = false,
