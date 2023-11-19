@@ -1,6 +1,10 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export EDITOR:lvim
+SETUVAR --export LANG:en_US\x2eUTF\x2d8
+SETUVAR --export LANGUAGE:en_US\x2eUTF\x2d8
+SETUVAR --export LC_ALL:en_US\x2eUTF\x2d8
 SETUVAR __fish_initialized:3400
-SETUVAR fish_key_bindings:fish_default_key_bindings
+SETUVAR fish_key_bindings:fish_vi_key_bindings
 SETUVAR fish_pager_color_selected_background:\x2dr
 SETUVAR fish_user_paths:/home/ranjith/\x2econfig/emacs/bin\x1e/home/ranjith/eww/target/release/\x1e/home/ranjith/anaconda3/bin/\x1e/home/ranjith/\x2ebin\x1e/home/ranjith/\x2elocal/bin\x1e/home/ranjith/Applications

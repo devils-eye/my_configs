@@ -61,6 +61,7 @@ import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 
 
 myTerminal      = "alacritty"
+secondTerminal = "kitty"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -132,8 +133,14 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm, xK_Return), spawn $ XMonad.terminal conf)
 
+    -- launching scratchpad
+    -- , ((modm, xK_z), namedScratchpadAction myScratchpad "terminal")
+
     -- lock screen
     , ((modm,               xK_F1    ), spawn "betterlockscreen -l")
+
+    -- Open chatgpt in qutebrowser
+    , ((modm,               xK_F12    ), spawn "qutebrowser")
 
     -- launch rofi and dashboard
     , ((modm .|. shiftMask, xK_Return), rofi_launcher)
@@ -252,6 +259,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
+    -- Scratchpad keybinds
+    , ((modm .|. controlMask, xK_a), namedScratchpadAction myScratchpad "dolphin")
+
+
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
@@ -260,6 +271,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
+
     ]
     ++
 
@@ -325,10 +337,33 @@ myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
      -- Percent of screen to increment by when resizing panes
      delta   = 3/100
 
-     -- xmobar suggested by chatGPT
-     tall = Tall 1 (3/100) (1/2)
+--      -- xmobar suggested by chatGPT
+--      tall = Tall 1 (3/100) (1/2)
 
 ------------------------------------------------------------------------
+-- Scratchpad
+myScratchpad :: [NamedScratchpad]
+myScratchpad = [ NS "dolphin" spwnTerm findTerm manageTerm]
+  where 
+    -- spwnTerm = secondTerminal ++ " -t scratchpad"
+    spwnTerm = "dolphin" ++ " -t scratchpad"
+    findTerm = title =? "scratchpad"
+    manageTerm = customFloating $ W.RationalRect l t w h
+      where
+        h = 0.1
+        w = 0.1 
+        t = 1 - h
+        l = 1 - w
+
+
+
+
+-- Scratchpad keybindings
+-- Toggle show/hide these programs. They run on a hidden workspace
+-- When you toggel them to show, it brings them to current workspace
+-- Toggle them to hide and it sends them back to hidden workspace
+
+-------------------------------------------------------------------------
 -- Window rules:
 
 -- Execute arbitrary actions and WindowSet manipulations when managing
@@ -343,13 +378,16 @@ myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
-myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
+-- myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
+myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
     , isFullscreen --> doFullFloat
+    , namedScratchpadManageHook myScratchpad
                                  ]
+
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -384,19 +422,26 @@ myStartupHook = do
   spawnOnce "exec ~/bin/eww daemon"
   spawnOnce "exec ~/autostart.sh"
   spawn "xsetroot -cursor_name left_ptr"
-  -- spawn "exec ~/bin/lock.sh"
-  spawnOnce "feh --bg-scale ~/wallpapers/yosemite-lowpoly.jpg"
-  spawnOnce "picom --experimental-backends"
-  spawnOnce "greenclip daemon"
-  spawnOnce "dunst"
-  spawnOnce "nitrogen --restore &"
-  spawnOnce "xrandr --output DP-0 --mode 2560x1440 --rate 74.97 --primary"
-  spawnOnce "xrandr --output HDMI-0 --mode 1920x1080 --rate 60 --noprimary --right-of DP-0"
-  spawnOnce "xrandr --output DP-3 --mode 1920x1080 --rate 60 --noprimary --above HDMI-0"
-  spawnOnce "xset r rate 300 100 &"
   spawnOnce "yakuake"
-  spawnOnce "picom"
-  spawnOnce "setxkbmap -option caps:swapescape &"
+  spawnOnce "sleep 2s && ~/.config/polybar/launch.sh &"
+  spawnOnce "xset s off"
+  spawnOnce "xset -dpms"
+  -- all the things that want to start at beginning is in autostart.sh
+  -- spawn "exec ~/bin/lock.sh"
+  -- spawnOnce "feh --bg-scale ~/wallpapers/yosemite-lowpoly.jpg"
+  -- spawnOnce "picom --experimental-backends"
+  -- spawnOnce "greenclip daemon"
+  -- spawnOnce "dunst"
+  -- spawnOnce "nitrogen --restore &"
+  -- spawnOnce "xrandr --output DP-0 --mode 2560x1440 --rate 74.97 --primary"
+  -- spawnOnce "xrandr --output HDMI-0 --mode 1920x1080 --rate 60 --noprimary --right-of DP-0"
+  -- spawnOnce "xrandr --output DP-3 --mode 1920x1080 --rate 60 --noprimary --above HDMI-0"
+  -- spawnOnce "xset r rate 300 100 &"
+  -- spawnOnce "picom"
+  -- spawnOnce "setxkbmap -option caps:swapescape &"
+  -- spawn "killall xmobar"
+  -- spawn "killall trayer"
+
 
 
 ------------------------------------------------------------------------
@@ -404,14 +449,11 @@ myStartupHook = do
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
-main = xmonad $ fullscreenSupport $ docks $ ewmh defaults
+-------------------------------------------------------------------------------------------------------------
+main :: IO ()
+main = do
+  xmonad $ fullscreenSupport $ docks $ ewmh defaults  
 
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
 defaults = def {
       -- simple stuff
         terminal           = myTerminal,
@@ -429,11 +471,12 @@ defaults = def {
 
       -- hooks, layouts
         manageHook = myManageHook, 
-        layoutHook = gaps [(L,30), (R,30), (U,40), (D,60)] $ spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True $ smartBorders $ myLayout,
+        layoutHook = gaps [(L,0), (R,0), (U,25), (D,10)] $ spacingRaw True (Border 10 10 10 10) True (Border 5 5 5 5) True $ smartBorders $ myLayout,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
         startupHook        = myStartupHook >> addEWMHFullscreen
     }
+-------------------------------------------------------------------------------------------------------------
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
 help :: String

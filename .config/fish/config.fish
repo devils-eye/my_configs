@@ -50,6 +50,9 @@ set -U fish_user_paths ~/anaconda3/bin/ $fish_user_paths
 set -U fish_user_paths ~/eww/target/release/ $fish_user_paths
 set -U fish_user_paths ~/.config/emacs/bin $fish_user_paths
 
+# setting default terminal editor
+set -Ux EDITOR lvim
+
 # Starship prompt
 #if command -sq starship
 #    starship init fish | source
@@ -534,7 +537,12 @@ alias search_y='yay -Ss '
 alias py="python "
 alias speed='xset r rate 300 100'
 alias swap='setxkbmap -option caps:swapescape'
-alias std='conda activate stable_diffusion && cd /mnt/Fast_Storage/stable-diffusion-webui/ && py launch.py'
+alias std='conda deactivate && conda activate stable_diffusion && cd /mnt/Fast_Storage/stable-diffusion-webui/ && py launch.py'
+alias xr='xmonad --recompile'
+alias xs='xmonad --restart'
+alias textgen='cd /mnt/Fast_Storage/LLM/text-generation-webui/ && conda deactivate && conda activate textgen && py server.py --api'
+alias polybar='./~/.config/polybar/launch.sh'
+alias noscroff='xset s off && xset -dpms'
 
 #moving your personal files and folders from /personal to ~
 function personal
@@ -546,7 +554,7 @@ end
 # using plugin
 # omf install https://github.com/jhillyerd/plugin-git
 alias undopush "git push -f origin HEAD^:master"
-
+fish_vi_key_bindings
 # reporting tools - install when not installed
 neofetch
 #screenfetch
@@ -594,6 +602,8 @@ set fish_pager_color_prefix normal --bold underline
 set fish_pager_color_prefix white --bold --underline
 set fish_pager_color_progress brwhite --background=cyan
 set fish_color_search_match --background="#60AEFF"
+
+starship init fish | source
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
